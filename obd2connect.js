@@ -1,6 +1,6 @@
 var obd2Connected = bluemonkey.subscribeTo("Obd2Connected")
 
-function checkOb2Connected()
+function checkObd2Connected()
 {
 
 	if(obd2Connected.value == false)
@@ -12,6 +12,6 @@ function checkOb2Connected()
 
 var timer = new QTimer();
 
-timer.start(15000);
+timer.start(5000);
 
 timer.timeout.connect(checkObd2Connected);
