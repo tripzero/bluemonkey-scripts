@@ -19,7 +19,7 @@ function ircConnected() {
 }
 
 
-irc.channels = ["#bluemonkey","#linuxice","#gpsd"]
+irc.channels = ["#bluemonkey","#linuxice"]
 irc.connected.connect(ircConnected);
 irc.connecting.connect(ircConnecting);
 

@@ -10,8 +10,8 @@ function checkObd2Connected()
 
 }
 
-var timer = new QTimer();
+var obd2ConnectTimer = new QTimer();
 
-timer.start(5000);
+obd2ConnectTimer.start(5000);
 
-timer.timeout.connect(checkObd2Connected);
+obd2ConnectTimer.timeout.connect(checkObd2Connected);

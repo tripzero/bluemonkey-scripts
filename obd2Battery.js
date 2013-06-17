@@ -1,21 +1,35 @@
 var batteryVoltage = bluemonkey.subscribeTo("BatteryVoltage");
 
-var timer = new QTimer();
+var batteryTimer = new QTimer();
 
-timer.setInterval(60000);
+batteryTimer.interval = 60000;
+batteryTimer.singleShot = true;
 
-timer.timeout.connect(function() {
-  if (batteryVoltage.value <= 13.0)
-  {
-    obd2Connected.value = false;
-  }
+function batteryCheck(value)
+{
+	bluemonkey.log("batteryCheck()");
+	if(value <= 13.0)
+	{
+		bluemonkey.log("battery is low " + value);
+		if(!batteryTimer.active)
+			batteryTimer.start();
+	}
+	else batteryTimer.stop();
+
+	bluemonkey.log("leaving batteryCheck()");
 }
 
-batteryVoltage.changed.connect(function(value) {
-  if(value <= 13.0)
-  {
-    timer.start();    
-  }
-  else timer.stop();
+function batteryCheckFinal()
+{
+	bluemonkey.log("batteryCheckFinal")
+	if (batteryVoltage.value <= 13.0)
+	{
+		obd2Connected.value = false;
+		obd2ConnectTimer.stop();
+	}
 }
 
+batteryTimer.timeout.connect(batteryCheckFinal);
+batteryVoltage.changed.connect(batteryCheck);
+
+batteryCheck(batteryVoltage.value);
